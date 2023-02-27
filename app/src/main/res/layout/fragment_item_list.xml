@@ -3,7 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:background="@drawable/custom_edittext"
     android:layout_height="70dp"
-    android:layout_width="fill_parent">
+    android:layout_width="fill_parent"
+    android:id="@+id/cardForBack">
     <Button
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -14,5 +15,8 @@
         android:layout_marginBottom="5dp"
         android:backgroundTint="@color/white"
         android:textColor="@color/boggle"
+        android:outlineSpotShadowColor="@color/black"
+        android:shadowColor="@color/black"
+        android:outlineAmbientShadowColor="@color/black"
         />
 </androidx.cardview.widget.CardView>

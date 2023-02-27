@@ -7,5 +7,4 @@
         android:color="@color/boggle"/>
     <corners
         android:radius='20dp'/>
-
 </shape>
