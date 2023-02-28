@@ -37,6 +37,7 @@
         android:layout_height="wrap_content"
         android:backgroundTint="@color/white"
         android:text="@string/clear"
+        android:enabled="false"
         android:textColor="@drawable/editable_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

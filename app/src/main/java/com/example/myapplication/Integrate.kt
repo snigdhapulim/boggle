@@ -33,7 +33,6 @@ class Integrate {
         }
 
         fun word(word:String):Boolean{
-            Log.i("h",word)
             return true
         }
     }

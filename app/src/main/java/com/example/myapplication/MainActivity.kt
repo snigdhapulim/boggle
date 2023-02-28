@@ -42,4 +42,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    fun restartFragment() {
+        if (!isFinishing()) {
+            recreate()
+        }
+    }
+
 }
