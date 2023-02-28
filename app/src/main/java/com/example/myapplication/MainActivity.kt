@@ -32,14 +32,19 @@ class MainActivity : AppCompatActivity() {
 
     fun generate_alphabets(){
         if(boggleViewModel.alpha.isEmpty()){
-            var rand=' ';
-            var alpha= mutableListOf<String>()
-            for (i in 1..16) {
-                rand = ('A'..'Z').random()
-                alpha.add(rand.toString())
-            }
-            boggleViewModel.addAlpha(alpha.toList())
+            generate()
         }
+    }
+
+    fun generate(){
+        var rand=' ';
+        var alpha= mutableListOf<String>()
+        for (i in 1..16) {
+            rand = ('A'..'Z').random()
+            alpha.add(rand.toString())
+        }
+        boggleViewModel.addAlpha(alpha.toList())
+        Log.i("changed",boggleViewModel.alpha.toString())
     }
 
     fun restartFragment() {

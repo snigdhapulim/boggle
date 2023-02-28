@@ -6,4 +6,6 @@
     <string name="words">words</string>
     <string name="clear">clear</string>
     <string name="submit">submit</string>
+    <string name="new_game">New Game</string>
+    <string name="score">SCORE:</string>
 </resources>

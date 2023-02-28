@@ -73,21 +73,13 @@ class Alphabets : Fragment() {
         }
 
         clear.setOnClickListener {
-            Integrate.word(view.findViewById<TextView>(R.id.word).text.toString())
             restartFragment()
-            if (alpha != null) {
-                updateText(view,alpha)
-            }
-            else{
-                Log.i("abcent",alpha.toString())
-            }
+            if (alpha != null) {updateText(view,alpha)}
         }
         submit.setOnClickListener {
             Integrate.word(view.findViewById<TextView>(R.id.word).text.toString())
             restartFragment()
-            if (alpha != null) {
-                updateText(view,alpha)
-            }
+            if (alpha != null) {updateText(view,alpha)}
         }
 
         return view
@@ -95,8 +87,8 @@ class Alphabets : Fragment() {
 
     fun restartFragment() {
         boggleViewModel.emptyList()
-        var activity:MainActivity=getActivity() as MainActivity
-        activity.restartFragment()
+        //var activity:MainActivity=getActivity() as MainActivity
+        //activity.restartFragment()
     }
     fun updateText(view:View,alpha:List<String>){
         Log.i("a",boggleViewModel.wordIndex.toString())
