@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -25,6 +26,7 @@ class Alphabets : Fragment() {
     private lateinit var clear: Button
     private lateinit var charGrids: MyItemRecyclerViewAdapter
     private lateinit var boggleViewModel: BoggleViewModel
+    private lateinit var card: CardView
     val activity: Activity = Activity()
 
 
@@ -42,9 +44,9 @@ class Alphabets : Fragment() {
         boggleViewModel= ViewModelProvider(this).get(BoggleViewModel::class.java)
         submit= view.findViewById(R.id.submit)
         clear=view.findViewById(R.id.clear)
+        card=view.findViewById<CardView>(R.id.cardV)
         if (alpha != null){
             recyclerView= view.findViewById(R.id.list)
-            val card=view.findViewById<CardView>(R.id.cardV)
             card.visibility=View.VISIBLE
             charGrids=  MyItemRecyclerViewAdapter(activity, alpha.toList(), { selected ->
                 val handler = Handler()
@@ -64,7 +66,7 @@ class Alphabets : Fragment() {
                         }
                     }
                 }, 200);
-            },{->submit.isEnabled=true},{ -> submit.isEnabled = false },
+            },{->submit.isEnabled=true},{ -> submit.isEnabled = false }, {->clear.isEnabled=true},
                 {wordIndex:List<Int>->
                     boggleViewModel.updateWordIndex(wordIndex)
                     updateText(view,alpha)})
@@ -74,9 +76,8 @@ class Alphabets : Fragment() {
         }
 
         clear.setOnClickListener {
-            boggleViewModel.emptyList()
-            view.findViewById<TextView>(R.id.word).text=null
-            //recyclerView.
+            restartFragment()
+            if (alpha != null) {updateText(view,alpha)}
         }
         submit.setOnClickListener {
             boggleViewModel.viewModelScope.launch {
@@ -90,11 +91,20 @@ class Alphabets : Fragment() {
                     Log.e("Error occured", e.message.toString())
                 }
             }
+            restartFragment()
+            if (alpha != null) {updateText(view,alpha)}
         }
 
         return view
     }
+
+    fun restartFragment() {
+        boggleViewModel.emptyList()
+        //var activity:MainActivity=getActivity() as MainActivity
+        //activity.restartFragment()
+    }
     fun updateText(view:View,alpha:List<String>){
+        Log.i("a",boggleViewModel.wordIndex.toString())
         val iterate=boggleViewModel.wordIndex.iterator()
         var str=String()
         while (iterate.hasNext()) {
@@ -102,5 +112,6 @@ class Alphabets : Fragment() {
         }
         Log.i("a",boggleViewModel.wordIndex.toString())
         view.findViewById<TextView>(R.id.word).text=str.toString()
+
     }
 }

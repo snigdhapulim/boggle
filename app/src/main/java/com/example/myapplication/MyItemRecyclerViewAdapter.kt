@@ -21,7 +21,7 @@ class AlphaHolder(
 ) : RecyclerView.ViewHolder(binding.root) {
     fun bind(
         item:String, index:Int, onClickOf:(list:List<Int>)->Unit, enabled: () -> Unit,
-        enabledFalse: () -> Unit,updateIndex:(indexs:List<Int>)->Unit
+        enabledFalse: () -> Unit,clearEnabled: () -> Unit,updateIndex:(indexs:List<Int>)->Unit
     ) {
         binding.charS.text = item
         binding.charS.setOnTouchListener { view, motionEvent ->
@@ -37,6 +37,7 @@ class AlphaHolder(
                     }
                     onClickOf(workIndexs.toList())
                     if(Integrate.isValidLength(workIndexs.toList())){enabled()}
+                    if(workIndexs.size>0){clearEnabled()}
                     else{enabledFalse() }
                 }
             }
@@ -52,6 +53,7 @@ class MyItemRecyclerViewAdapter(
     private val onClickOf: (list: List<Int>) -> Unit,
     private val enabled: () -> Unit,
     private val enabledFalse: () -> Unit,
+    private val clearEnabled: () -> Unit,
     private val updateIndex:(indexs:List<Int>)->Unit
 ) : RecyclerView.Adapter<AlphaHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlphaHolder {
@@ -65,7 +67,7 @@ class MyItemRecyclerViewAdapter(
 
     override fun onBindViewHolder(holder: AlphaHolder, position: Int) {
         val item = values[position]
-        holder.bind(item,position,onClickOf,enabled,enabledFalse,updateIndex)
+        holder.bind(item,position,onClickOf,enabled,enabledFalse,clearEnabled,updateIndex)
     }
 
     fun reset(){
