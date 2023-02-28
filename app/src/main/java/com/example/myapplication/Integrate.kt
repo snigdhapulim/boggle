@@ -1,5 +1,7 @@
 package com.example.myapplication
 
+import android.util.Log
+
 class Integrate {
     companion object {
         fun checkAlphaPosition(index: Int, indexList: List<Int>): Boolean {
@@ -28,6 +30,11 @@ class Integrate {
         fun isValidLength(indexList: List<Int>): Boolean {
             if(indexList.size>=4){return true}
             return false
+        }
+
+        fun word(word:String):Boolean{
+            Log.i("h",word)
+            return true
         }
     }
 }
