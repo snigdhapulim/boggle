@@ -12,8 +12,11 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.myapplication.network.DictionaryAPIService
+import kotlinx.coroutines.launch
 
 
 class Alphabets : Fragment() {
@@ -76,7 +79,17 @@ class Alphabets : Fragment() {
             //recyclerView.
         }
         submit.setOnClickListener {
-            Integrate.word(view.findViewById<TextView>(R.id.word).text.toString())
+            boggleViewModel.viewModelScope.launch {
+                try {
+                    val listResult = DictionaryAPIService.DictionaryAPI.retrofitService.getWord(view.findViewById<TextView>(R.id.word).text.toString())
+                    Log.i("WordActivite", listResult.toString())
+                    Integrate.word(view.findViewById<TextView>(R.id.word).text.toString())
+                }
+                catch (e:Exception){
+                    Integrate.finalScore-=10
+                    Log.e("Error occured", e.message.toString())
+                }
+            }
         }
 
         return view
