@@ -87,8 +87,9 @@ class Alphabets : Fragment() {
 
     fun restartFragment() {
         boggleViewModel.emptyList()
-        //var activity:MainActivity=getActivity() as MainActivity
-        //activity.restartFragment()
+        submit.isEnabled=false
+        clear.isEnabled=false
+        charGrids.resetList()
     }
     fun updateText(view:View,alpha:List<String>){
         Log.i("a",boggleViewModel.wordIndex.toString())

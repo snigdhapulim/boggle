@@ -1,6 +1,7 @@
 package com.example.myapplication
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.ViewGroup
@@ -75,5 +76,10 @@ class MyItemRecyclerViewAdapter(
     }
     override fun getItemCount(): Int = values.size
 
+    fun resetList(){
+        Log.i("check","hi")
+        workIndexs= mutableListOf<Int>()
+        onClickOf(workIndexs.toList())
+    }
 
 }
