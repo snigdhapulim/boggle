@@ -91,5 +91,9 @@ class Integrate {
             Log.i("Vowels count", vowelsCount.toString())
             return vowelsCount;
         }
+
+        fun resetScore(){
+            finalScore = 0;
+        }
     }
 }

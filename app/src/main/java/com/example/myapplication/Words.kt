@@ -24,6 +24,8 @@ class Words : Fragment() {
         newGame.setOnClickListener {
             var activity:MainActivity=getActivity() as MainActivity
             activity.re_generate()
+            Integrate.resetScore()
+            update_scro()
         }
         return view
     }
@@ -33,6 +35,10 @@ class Words : Fragment() {
         //            if(Integer.parseInt(score.text.toString())<Integrate.finalScore){
         //                score.text=Integrate.finalScore.toString()
         //                score.setTextColor(R.color.red)
+        //            }
+        //            else if(Integer.parseInt(score.text.toString())=Integrate.finalScore){
+        //                score.text=Integrate.finalScore.toString()
+        //                score.setTextColor(R.color.black)
         //            }
         //            else{
         //                score.text=Integrate.finalScore.toString()
