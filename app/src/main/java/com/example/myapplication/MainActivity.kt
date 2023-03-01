@@ -48,7 +48,6 @@ class MainActivity : AppCompatActivity() {
             alpha.add(rand.toString())
         }
         boggleViewModel.addAlpha(alpha.toList())
-        Log.i("changed",boggleViewModel.alpha.toString())
     }
     fun re_generate(){
         generate()
@@ -56,6 +55,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun getScore(){
+        Log.i("getting score",boggleViewModel.alpha.toString())
         wordFragment.update_scro()
     }
 

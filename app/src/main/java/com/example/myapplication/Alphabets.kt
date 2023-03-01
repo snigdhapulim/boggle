@@ -69,7 +69,8 @@ class Alphabets : Fragment() {
             },{->submit.isEnabled=true},{ -> submit.isEnabled = false }, {->clear.isEnabled=true},
                 {wordIndex:List<Int>->
                     boggleViewModel.updateWordIndex(wordIndex)
-                    updateText(view,alpha)})
+                    updateText(view,alpha)
+                })
             recyclerView.layoutManager = GridLayoutManager(activity, 4)
             recyclerView.hasOnClickListeners()
             recyclerView.adapter=charGrids
@@ -84,16 +85,15 @@ class Alphabets : Fragment() {
             boggleViewModel.viewModelScope.launch {
                 try {
                     val listResult = DictionaryAPIService.DictionaryAPI.retrofitService.getWord(finalWord)
-                    Log.i("WordActivite", listResult.toString())
                     Integrate.word(finalWord)
                 }
                 catch (e:Exception){
                     Integrate.finalScore-=10
-                    Log.e("Error occured", e.message.toString())
                 }
             }
             restartFragment()
             if (alpha != null) {updateText(view,alpha)}
+            callingScore()
         }
 
         return view
