@@ -79,8 +79,10 @@ class Integrate {
         fun countVowels(word:String):Int{
             var vowelsCount = 0
             var testWord = word.lowercase()
+            Log.i("testWord", word)
             for (i in 0..testWord.length - 1) {
                 val ch = testWord[i]
+                Log.i("Character is", ch.toString())
                 if (ch == 'a' || ch == 'e' || ch == 'i'
                     || ch == 'o' || ch == 'u') {
                     ++vowelsCount

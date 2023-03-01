@@ -1,7 +1,6 @@
 package com.example.myapplication
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.ViewGroup
@@ -50,7 +49,7 @@ class AlphaHolder(
 
 class MyItemRecyclerViewAdapter(
     val context: Context,
-    private val values: List<String>,
+    private var values: List<String>,
     private val onClickOf: (list: List<Int>) -> Unit,
     private val enabled: () -> Unit,
     private val enabledFalse: () -> Unit,
@@ -76,8 +75,12 @@ class MyItemRecyclerViewAdapter(
     }
     override fun getItemCount(): Int = values.size
 
+    fun update(str:ArrayList<String>){
+        values = str
+        this.notifyDataSetChanged()
+    }
+
     fun resetList(){
-        Log.i("check","hi")
         workIndexs= mutableListOf<Int>()
         onClickOf(workIndexs.toList())
     }

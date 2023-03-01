@@ -80,11 +80,12 @@ class Alphabets : Fragment() {
             if (alpha != null) {updateText(view,alpha)}
         }
         submit.setOnClickListener {
+            var finalWord = view.findViewById<TextView>(R.id.word).text.toString()
             boggleViewModel.viewModelScope.launch {
                 try {
-                    val listResult = DictionaryAPIService.DictionaryAPI.retrofitService.getWord(view.findViewById<TextView>(R.id.word).text.toString())
+                    val listResult = DictionaryAPIService.DictionaryAPI.retrofitService.getWord(finalWord)
                     Log.i("WordActivite", listResult.toString())
-                    Integrate.word(view.findViewById<TextView>(R.id.word).text.toString())
+                    Integrate.word(finalWord)
                 }
                 catch (e:Exception){
                     Integrate.finalScore-=10
@@ -104,14 +105,23 @@ class Alphabets : Fragment() {
         clear.isEnabled=false
         charGrids.resetList()
     }
+
+    fun generate(al:List<String>){
+        charGrids.update(ArrayList(al))
+        restartFragment()
+    }
+
+    fun callingScore(){
+        var activity:MainActivity=getActivity() as MainActivity
+        activity.getScore()
+    }
+
     fun updateText(view:View,alpha:List<String>){
-        Log.i("a",boggleViewModel.wordIndex.toString())
         val iterate=boggleViewModel.wordIndex.iterator()
         var str=String()
         while (iterate.hasNext()) {
             str=str+alpha.get(iterate.next())
         }
-        Log.i("a",boggleViewModel.wordIndex.toString())
         view.findViewById<TextView>(R.id.word).text=str.toString()
 
     }

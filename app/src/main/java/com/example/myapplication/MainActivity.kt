@@ -5,12 +5,14 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
+import androidx.fragment.app.Fragment
 import com.example.myapplication.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val boggleViewModel: BoggleViewModel by viewModels()
-
+    private lateinit var mFragment: Alphabets
+    private lateinit var wordFragment: Words
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,12 +24,14 @@ class MainActivity : AppCompatActivity() {
 
         val mFragmentManager = supportFragmentManager
         val mFragmentTransaction = mFragmentManager.beginTransaction()
-        val mFragment = Alphabets()
+        mFragment = Alphabets()
+        wordFragment= Words()
 
         val mBundle = Bundle()
         mBundle.putStringArrayList("alpha", ArrayList<String>(boggleViewModel.alpha))
         mFragment.arguments = mBundle
-        mFragmentTransaction.add(R.id.fragment1, mFragment).commit()
+        mFragmentTransaction.add(R.id.fragment1, mFragment)
+            .add(R.id.fragment2, wordFragment).commit()
     }
 
     fun generate_alphabets(){
@@ -46,11 +50,13 @@ class MainActivity : AppCompatActivity() {
         boggleViewModel.addAlpha(alpha.toList())
         Log.i("changed",boggleViewModel.alpha.toString())
     }
+    fun re_generate(){
+        generate()
+        mFragment.generate(boggleViewModel.alpha.toList())
+    }
 
-    fun restartFragment() {
-        if (!isFinishing()) {
-            recreate()
-        }
+    fun getScore(){
+        wordFragment.update_scro()
     }
 
 }

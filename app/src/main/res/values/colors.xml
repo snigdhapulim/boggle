@@ -9,4 +9,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="boggle">#43c7cc</color>
     <color name="green_l">#32a852</color>
+    <color name="red">#DC143C</color>
 </resources>
