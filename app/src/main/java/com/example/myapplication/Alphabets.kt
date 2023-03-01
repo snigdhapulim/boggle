@@ -27,7 +27,9 @@ class Alphabets : Fragment() {
     private lateinit var charGrids: MyItemRecyclerViewAdapter
     private lateinit var boggleViewModel: BoggleViewModel
     private lateinit var card: CardView
+    private lateinit var textView: TextView
     val activity: Activity = Activity()
+    lateinit var alpha:ArrayList<String>
 
 
     override fun onCreateView(
@@ -37,15 +39,21 @@ class Alphabets : Fragment() {
         // Inflate the layout for this fragment
         //gridView= getView()?.findViewById(R.id.grid) ?:
         val view=inflater.inflate(R.layout.fragment_alphabets, container, false )
+        textView=view.findViewById(R.id.word)
         val bundle = arguments
-        val alpha = bundle?.getStringArrayList("alpha")
+        if(bundle != null){
+            alpha = bundle.getStringArrayList("alpha") as ArrayList<String>
+        }else{
+            alpha = ArrayList()
+        }
+
         var wordIndex=bundle?.getIntegerArrayList("wordIndex")
         if (wordIndex == null) {wordIndex= ArrayList<Int>() }
         boggleViewModel= ViewModelProvider(this).get(BoggleViewModel::class.java)
         submit= view.findViewById(R.id.submit)
         clear=view.findViewById(R.id.clear)
         card=view.findViewById<CardView>(R.id.cardV)
-        if (alpha != null){
+        if (alpha.isNotEmpty()){
             recyclerView= view.findViewById(R.id.list)
             card.visibility=View.VISIBLE
             charGrids=  MyItemRecyclerViewAdapter(activity, alpha.toList(), { selected ->
@@ -69,7 +77,7 @@ class Alphabets : Fragment() {
             },{->submit.isEnabled=true},{ -> submit.isEnabled = false }, {->clear.isEnabled=true},
                 {wordIndex:List<Int>->
                     boggleViewModel.updateWordIndex(wordIndex)
-                    updateText(view,alpha)
+                    updateText(alpha)
                 })
             recyclerView.layoutManager = GridLayoutManager(activity, 4)
             recyclerView.hasOnClickListeners()
@@ -78,22 +86,26 @@ class Alphabets : Fragment() {
 
         clear.setOnClickListener {
             restartFragment()
-            if (alpha != null) {updateText(view,alpha)}
+            if (alpha != null) {updateText(alpha)}
         }
         submit.setOnClickListener {
+            Log.i("Submit", "Submit is being called")
             var finalWord = view.findViewById<TextView>(R.id.word).text.toString()
             boggleViewModel.viewModelScope.launch {
                 try {
                     val listResult = DictionaryAPIService.DictionaryAPI.retrofitService.getWord(finalWord)
                     Integrate.word(finalWord)
+                    callingScore()
                 }
                 catch (e:Exception){
                     Integrate.finalScore-=10
+                    Log.i("finalscore", Integrate.finalScore.toString())
+                    callingScore()
                 }
             }
             restartFragment()
-            if (alpha != null) {updateText(view,alpha)}
-            callingScore()
+            if (alpha != null) {updateText(alpha)}
+
         }
 
         return view
@@ -107,7 +119,9 @@ class Alphabets : Fragment() {
     }
 
     fun generate(al:List<String>){
-        charGrids.update(ArrayList(al))
+        alpha= ArrayList(al)
+        charGrids.update(alpha)
+        updateTextToEmpty()
         restartFragment()
     }
 
@@ -116,13 +130,17 @@ class Alphabets : Fragment() {
         activity.getScore()
     }
 
-    fun updateText(view:View,alpha:List<String>){
+    fun updateText(alpha:List<String>){
         val iterate=boggleViewModel.wordIndex.iterator()
         var str=String()
         while (iterate.hasNext()) {
             str=str+alpha.get(iterate.next())
         }
-        view.findViewById<TextView>(R.id.word).text=str.toString()
+        textView.text=str.toString()
 
+    }
+
+    fun updateTextToEmpty(){
+        textView.text= String().toString()
     }
 }

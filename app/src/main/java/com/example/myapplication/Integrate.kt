@@ -92,8 +92,5 @@ class Integrate {
             return vowelsCount;
         }
 
-        fun resetScore(){
-            finalScore = 0;
-        }
     }
 }

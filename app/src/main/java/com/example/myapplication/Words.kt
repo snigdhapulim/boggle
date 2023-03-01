@@ -10,39 +10,36 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.compose.ui.graphics.Color
+import com.example.myapplication.databinding.ActivityMainBinding
 
 
 class Words : Fragment() {
     private lateinit var newGame: Button
     private lateinit var score: TextView
+
+    private var gameScore = "0"
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         val view=inflater.inflate(R.layout.fragment_words, container, false)
+        score=view.findViewById(R.id.score)
+        score.setTextColor(R.color.green_l)
         newGame= view.findViewById(R.id.new_game)
 
+
         newGame.setOnClickListener {
+            Integrate.finalScore = 0
+            gameScore = "0"
+            score.text=gameScore
             var activity:MainActivity=getActivity() as MainActivity
             activity.re_generate()
-            Integrate.resetScore()
-            update_scro()
         }
         return view
     }
     fun update_scro(){
-        Log.i("at Score",Integrate.finalScore.toString())
-        //score=view.findViewById<TextView?>(R.id.score)
-        //            if(Integer.parseInt(score.text.toString())<Integrate.finalScore){
-        //                score.text=Integrate.finalScore.toString()
-        //                score.setTextColor(R.color.red)
-        //            }
-        //            else if(Integer.parseInt(score.text.toString())=Integrate.finalScore){
-        //                score.text=Integrate.finalScore.toString()
-        //                score.setTextColor(R.color.black)
-        //            }
-        //            else{
-        //                score.text=Integrate.finalScore.toString()
-        //                score.setTextColor(R.color.green_l)
-        //            }
+        Log.i("finalScore", Integrate.finalScore.toString())
+        gameScore = Integrate.finalScore.toString()
+        Log.i("at Score",gameScore)
+        score.text=gameScore
     }
 }
