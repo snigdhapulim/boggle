@@ -29,8 +29,6 @@ class Words : Fragment() {
 
         newGame.setOnClickListener {
             Integrate.finalScore = 0
-            gameScore = "0"
-            score.text=gameScore
             var activity:MainActivity=getActivity() as MainActivity
             activity.re_generate()
         }

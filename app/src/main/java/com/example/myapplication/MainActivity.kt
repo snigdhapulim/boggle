@@ -20,6 +20,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
         generate_alphabets();
 
         val mFragmentManager = supportFragmentManager
@@ -32,6 +33,11 @@ class MainActivity : AppCompatActivity() {
         mFragment.arguments = mBundle
         mFragmentTransaction.add(R.id.fragment1, mFragment)
             .add(R.id.fragment2, wordFragment).commit()
+
+
+
+
+
     }
 
     fun generate_alphabets(){
@@ -51,6 +57,7 @@ class MainActivity : AppCompatActivity() {
     }
     fun re_generate(){
         generate()
+        getScore()
         mFragment.generate(boggleViewModel.alpha.toList())
     }
 

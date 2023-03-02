@@ -17,6 +17,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.network.DictionaryAPIService
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 
 
@@ -30,6 +31,8 @@ class Alphabets : Fragment() {
     private lateinit var textView: TextView
     val activity: Activity = Activity()
     lateinit var alpha:ArrayList<String>
+
+    var wordList= mutableListOf<String>()
 
 
     override fun onCreateView(
@@ -93,11 +96,25 @@ class Alphabets : Fragment() {
             var finalWord = view.findViewById<TextView>(R.id.word).text.toString()
             boggleViewModel.viewModelScope.launch {
                 try {
-                    val listResult = DictionaryAPIService.DictionaryAPI.retrofitService.getWord(finalWord)
-                    Integrate.word(finalWord)
-                    callingScore()
+                    if(wordList.contains(finalWord)){
+                        val snack = Snackbar.make(it, "Same word? Come on!!!", Snackbar.LENGTH_LONG)
+                        snack.show()
+                    }else {
+                        Log.i("word being sent", finalWord)
+                        val listResult =
+                            DictionaryAPIService.DictionaryAPI.retrofitService.getWord(finalWord)
+                        Log.i("result log", listResult.toString())
+                        Integrate.word(finalWord)
+                        val snack = Snackbar.make(it, "Great Word!!!", Snackbar.LENGTH_LONG)
+                        snack.show()
+                        callingScore()
+                        wordList.add(finalWord)
+                    }
                 }
                 catch (e:Exception){
+                    val snack = Snackbar.make(it,"Incorrect Word, you get negatives",Snackbar.LENGTH_LONG)
+                    snack.show()
+                    Log.e("Error generated", e.toString())
                     Integrate.finalScore-=10
                     Log.i("finalscore", Integrate.finalScore.toString())
                     callingScore()
@@ -119,6 +136,7 @@ class Alphabets : Fragment() {
     }
 
     fun generate(al:List<String>){
+        wordList = mutableListOf<String>()
         alpha= ArrayList(al)
         charGrids.update(alpha)
         updateTextToEmpty()
